@@ -6,7 +6,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 BACKGROUND_COLOUR = arcade.color.WHITE
 SPRITE_COLOUR = arcade.color.ARTICHOKE
-
+PLAYER_SPEED = 5
 # creating game class
 
 class Player:
@@ -45,20 +45,26 @@ class MyGame(arcade.Window):
 
     # def setup(self):
 
-
     # defining drawing function
-
     def on_draw(self):
         arcade.start_render()
 
         self.player.draw()
 
-
     # defining update function
-
     def update(self, delta_time):
         self.player.update()
 
+    # defining movement functions
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.A:
+            self.player.change_x = -PLAYER_SPEED
+        if key == arcade.key.D:
+            self.player.change_x = PLAYER_SPEED
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.A or key == arcade.key.D:
+            self.player.change_x = 0
 # defining main function
 
 def main():

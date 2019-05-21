@@ -7,6 +7,12 @@ SCREEN_HEIGHT = 600
 BACKGROUND_COLOUR = arcade.color.WHITE
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
+GAME_RUNNING = 2
+
+# state of screens
+
+INSTRUCTION_PAGE_1 = 1
+
 # creating game class
 
 class Player:
@@ -40,6 +46,15 @@ class MyGame(arcade.Window):
         self.player_sprite_list = None
         arcade.set_background_color(BACKGROUND_COLOUR)
 
+        # screen state
+        self.current_state = None
+
+    def draw_instruction_page(self, page_number):
+        arcade.set_background_color(arcade.color.BURNT_ORANGE)
+        arcade.draw_rectangle_filled(300, 300, 50, 10, arcade.color.APPLE_GREEN)
+
+
+
 
     # defining setup function
 
@@ -51,6 +66,14 @@ class MyGame(arcade.Window):
 
         self.player.draw()
 
+        # drawing instruction page
+        if self.current_state == INSTRUCTION_PAGE_1:
+            self.draw_instruction_page(1)
+        elif self.current_state == GAME_RUNNING:
+            self.draw_game()
+
+
+
     # defining update function
     def update(self, delta_time):
         self.player.update()
@@ -61,6 +84,10 @@ class MyGame(arcade.Window):
             self.player.change_x = -PLAYER_SPEED
         if key == arcade.key.D:
             self.player.change_x = PLAYER_SPEED
+
+        if key == arcade.key.I:
+            self.current_state = INSTRUCTION_PAGE_1
+
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.A or key == arcade.key.D:

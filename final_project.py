@@ -4,9 +4,11 @@ import arcade
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BACKGROUND_COLOUR = arcade.color.WHITE
+BACKGROUND_COLOUR = arcade.color.GREEN
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
+GRAVITY = 1
+JUMP_SPEED = 3
 # creating game class
 
 class Player:
@@ -38,16 +40,25 @@ class MyGame(arcade.Window):
 
         self.player_sprite = None
         self.player_sprite_list = None
+        self.physics_engine = None
+        self.wall_list = None
         arcade.set_background_color(BACKGROUND_COLOUR)
 
 
     # defining setup function
 
-    # def setup(self):
-
+    def setup(self):
+        self.player_sprite = arcade.Sprite()
+        self.player_sprite_list = arcade.SpriteList()
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, self.wall_list, GRAVITY)
     # defining drawing function
     def on_draw(self):
         arcade.start_render()
+
+        '''
+        self.wall_list.draw()
+        self.player_sprite_list.draw
+        '''
 
         self.player.draw()
 
@@ -61,10 +72,15 @@ class MyGame(arcade.Window):
             self.player.change_x = -PLAYER_SPEED
         if key == arcade.key.D:
             self.player.change_x = PLAYER_SPEED
+        if key == arcade.key.SPACE:
+                self.player.change_y = JUMP_SPEED
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.A or key == arcade.key.D:
             self.player.change_x = 0
+        if key == arcade.key.SPACE:
+            self.player.change_y = 0
+
 # defining main function
 
 def main():

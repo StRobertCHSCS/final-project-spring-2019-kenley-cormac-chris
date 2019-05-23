@@ -10,8 +10,10 @@ PLAYER_SPEED = 5
 GAME_RUNNING = 2
 
 # state of screens
+TITLE_PAGE_1 = 1
+INSTRUCTION_PAGE_1 = 2
+MAP_1_PAGE = 3
 
-INSTRUCTION_PAGE_1 = 1
 
 # creating game class
 
@@ -44,14 +46,24 @@ class MyGame(arcade.Window):
 
         self.player_sprite = None
         self.player_sprite_list = None
-        arcade.set_background_color(BACKGROUND_COLOUR)
+
 
         # screen state
-        self.current_state = None
+        self.current_state = TITLE_PAGE_1
+
+    def draw_title_page(self, page_number):
+        arcade.set_background_color(arcade.color.WHITE)
+        arcade.draw_text("TITLE PAGE", 350, 300, arcade.color.BLACK, 20)
+        arcade.draw_text("PRESS I FOR INSTRUCTIONS", 275, 200, arcade.color.GRAY, 18)
 
     def draw_instruction_page(self, page_number):
-        arcade.set_background_color(arcade.color.BURNT_ORANGE)
-        arcade.draw_rectangle_filled(300, 300, 50, 10, arcade.color.APPLE_GREEN)
+        arcade.set_background_color(arcade.color.WHITE)
+        arcade.draw_text("INSTRUCTIONS", 350, 500, arcade.color.PALATINATE_BLUE, 20)
+        arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
+
+    def draw_map_1(self, page_number):
+        arcade.set_background_color(arcade.color.BABY_BLUE)
+
 
 
 
@@ -64,13 +76,20 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
-        self.player.draw()
+        #self.player.draw()
+
+        # drawing title page
+        if self.current_state == TITLE_PAGE_1:
+            self.draw_title_page(1)
 
         # drawing instruction page
         if self.current_state == INSTRUCTION_PAGE_1:
-            self.draw_instruction_page(1)
-        elif self.current_state == GAME_RUNNING:
-            self.draw_game()
+            self.draw_instruction_page(2)
+
+        # drawing map_1
+        if self.current_state == MAP_1_PAGE:
+            self.draw_map_1(3)
+            self.player.draw()
 
 
 
@@ -78,15 +97,21 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
         self.player.update()
 
-    # defining movement functions
+    # defining key functions
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.A:
-            self.player.change_x = -PLAYER_SPEED
-        if key == arcade.key.D:
-            self.player.change_x = PLAYER_SPEED
+        if self.current_state == MAP_1_PAGE:
+            if key == arcade.key.A:
+                self.player.change_x = -PLAYER_SPEED
+            if key == arcade.key.D:
+                self.player.change_x = PLAYER_SPEED
 
-        if key == arcade.key.I:
-            self.current_state = INSTRUCTION_PAGE_1
+        if self.current_state == TITLE_PAGE_1:
+            if key == arcade.key.I:
+                self.current_state = INSTRUCTION_PAGE_1
+
+        if self.current_state == INSTRUCTION_PAGE_1:
+            if key == arcade.key.ENTER:
+                self.current_state = MAP_1_PAGE
 
 
     def on_key_release(self, key, modifiers):

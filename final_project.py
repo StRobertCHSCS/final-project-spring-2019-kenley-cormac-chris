@@ -7,8 +7,8 @@ SCREEN_HEIGHT = 600
 BACKGROUND_COLOUR = arcade.color.GREEN
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
-GRAVITY = 1
-JUMP_SPEED = 3
+GRAVITY = 5
+JUMP_SPEED = 10
 # creating game class
 
 class Player:
@@ -79,7 +79,10 @@ class MyGame(arcade.Window):
         if key == arcade.key.A or key == arcade.key.D:
             self.player.change_x = 0
         if key == arcade.key.SPACE:
-            self.player.change_y = 0
+            if self.player.center_y >= 0:
+                self.player.change_y = -GRAVITY
+            else:
+                self.player.change_y = 0
 
 # defining main function
 

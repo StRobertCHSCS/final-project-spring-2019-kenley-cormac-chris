@@ -55,8 +55,6 @@ class MyGame(arcade.Window):
     # defining drawing function
     def on_draw(self):
         arcade.start_render()
-        # self.wall_list.draw()
-        # self.player_sprite_list.draw
         self.player.draw()
 
     # defining movement functions

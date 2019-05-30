@@ -1,4 +1,5 @@
 import arcade
+import time
 
 # defining constants
 
@@ -11,7 +12,7 @@ GRAVITY = 5
 JUMP_SPEED = 10
 # creating game class
 
-class Player:
+class Player():
     def __init__(self, center_x, center_y, change_x, change_y):
         self.center_x = center_x
         self.center_y = center_y
@@ -34,37 +35,29 @@ class MyGame(arcade.Window):
 
     def __init__(self):
 
+
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Our game name TBD")
-
         self.player = Player(200, 200, 0, 0)
-
-        self.player_sprite = None
         self.player_sprite_list = None
         self.physics_engine = None
         self.wall_list = None
+        self.floor_list = [100]
         arcade.set_background_color(BACKGROUND_COLOUR)
-
 
     # defining setup function
 
     def setup(self):
         self.player_sprite = arcade.Sprite()
         self.player_sprite_list = arcade.SpriteList()
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, self.wall_list, GRAVITY)
+        self.player_sprite_list.append(self.player)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
+
     # defining drawing function
     def on_draw(self):
         arcade.start_render()
-
-        '''
-        self.wall_list.draw()
-        self.player_sprite_list.draw
-        '''
-
+        # self.wall_list.draw()
+        # self.player_sprite_list.draw
         self.player.draw()
-
-    # defining update function
-    def update(self, delta_time):
-        self.player.update()
 
     # defining movement functions
     def on_key_press(self, key, modifiers):
@@ -79,15 +72,19 @@ class MyGame(arcade.Window):
         if key == arcade.key.A or key == arcade.key.D:
             self.player.change_x = 0
         if key == arcade.key.SPACE:
-            if self.player.center_y >= 0:
-                self.player.change_y = -GRAVITY
-            else:
-                self.player.change_y = 0
+            self.player.change_y = -JUMP_SPEED
+
+    # defining update function
+
+    def update(self, delta_time):
+        # self.physics_engine.update()
+        self.player.update()
 
 # defining main function
 
 def main():
     window = MyGame()
     arcade.run()
+
 
 main()

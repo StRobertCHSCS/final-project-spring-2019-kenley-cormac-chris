@@ -14,6 +14,9 @@ TITLE_PAGE_1 = 1
 INSTRUCTION_PAGE_1 = 2
 MAP_1_PAGE = 3
 
+# tiles
+TILE_SCALING = 1
+
 
 # creating game class
 
@@ -46,6 +49,8 @@ class MyGame(arcade.Window):
 
         self.player_sprite = None
         self.player_sprite_list = None
+        self.grass_list = None
+
 
 
         # screen state
@@ -62,7 +67,32 @@ class MyGame(arcade.Window):
         arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
 
     def draw_map_1(self, page_number):
+       # map_name = "Map2.tmx"
+        #platform_layer_name = "Tile Layer 1"
+
+       # my_map = arcade.read_tiled_map(map_name)
+       # map_array = my_map.layers_int_data[platform_layer_name]
+
+        # platform
+        #self.wall_list = arcade.generate_sprites(my_map, platform_layer_name)
+
         arcade.set_background_color(arcade.color.BABY_BLUE)
+        # sprite lists
+        self.grass_list = arcade.SpriteList()
+        #coordinate_list = [[32, 64],
+                       #[96, 64],
+                       #[160, 64]]
+        #for coordinate in coordinate_list:
+            #grass = arcade.Sprite("Images/GrassBlock.png")
+            #grass.center_x = coordinate[0]
+            #grass.center_y = coordinate[1]
+            #self.grass_list.append(grass)
+        for x in range(0, SCREEN_WIDTH, 64):
+            grass = arcade.Sprite("Images/GrassBlock.png")
+            grass.center_x = x
+            grass.center_y = 32
+            self.grass_list.append(grass)
+
 
 
 
@@ -70,7 +100,12 @@ class MyGame(arcade.Window):
 
     # defining setup function
 
-    # def setup(self):
+    #def setup(self):
+        # sprite lists
+
+
+
+
 
     # defining drawing function
     def on_draw(self):
@@ -90,12 +125,14 @@ class MyGame(arcade.Window):
         if self.current_state == MAP_1_PAGE:
             self.draw_map_1(3)
             self.player.draw()
+            self.grass_list.draw()
 
 
 
     # defining update function
     def update(self, delta_time):
         self.player.update()
+
 
     # defining key functions
     def on_key_press(self, key, modifiers):

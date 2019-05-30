@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" name="Blocks" tilewidth="64" tileheight="64" tilecount="4" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="2">
+   <image width="64" height="64" source="../Users/16477/Pictures/Saved Pictures/Tiles/platformPack_tile001.png"/>
+  </tile>
+  <tile id="3">
+   <image width="64" height="64" source="../Users/16477/Pictures/Saved Pictures/Tiles/platformPack_tile002.png"/>
+  </tile>
+  <tile id="4">
+   <image width="64" height="64" source="../Users/16477/Pictures/Saved Pictures/Tiles/platformPack_tile062.png"/>
+  </tile>
+  <tile id="5">
+   <image width="64" height="64" source="../Users/16477/Pictures/Saved Pictures/Tiles/platformPack_tile004.png"/>
+  </tile>
+ </tileset>
+ <layer id="4" name="Tile Layer 1" width="20" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+</data>
+ </layer>
+</map>

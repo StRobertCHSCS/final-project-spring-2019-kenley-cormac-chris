@@ -1,13 +1,16 @@
 import arcade
+import time
 
 # defining constants
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BACKGROUND_COLOUR = arcade.color.WHITE
+BACKGROUND_COLOUR = arcade.color.GREEN
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
 GAME_RUNNING = 2
+GRAVITY = 5
+JUMP_SPEED = 10
 
 # state of screens
 TITLE_PAGE_1 = 1
@@ -17,10 +20,9 @@ MAP_1_PAGE = 3
 # tiles
 TILE_SCALING = 1
 
-
 # creating game class
 
-class Player:
+class Player():
     def __init__(self, center_x, center_y, change_x, change_y):
         self.center_x = center_x
         self.center_y = center_y
@@ -43,16 +45,15 @@ class MyGame(arcade.Window):
 
     def __init__(self):
 
+
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Our game name TBD")
-
         self.player = Player(200, 200, 0, 0)
-
-        self.player_sprite = None
         self.player_sprite_list = None
         self.grass_list = None
-
-
-
+        self.physics_engine = None
+        self.wall_list = None
+        self.floor_list = [100]
+        arcade.set_background_color(BACKGROUND_COLOUR)
         # screen state
         self.current_state = TITLE_PAGE_1
 
@@ -67,26 +68,10 @@ class MyGame(arcade.Window):
         arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
 
     def draw_map_1(self, page_number):
-       # map_name = "Map2.tmx"
-        #platform_layer_name = "Tile Layer 1"
 
-       # my_map = arcade.read_tiled_map(map_name)
-       # map_array = my_map.layers_int_data[platform_layer_name]
-
-        # platform
-        #self.wall_list = arcade.generate_sprites(my_map, platform_layer_name)
-
-        arcade.set_background_color(arcade.color.BABY_BLUE)
         # sprite lists
         self.grass_list = arcade.SpriteList()
-        #coordinate_list = [[32, 64],
-                       #[96, 64],
-                       #[160, 64]]
-        #for coordinate in coordinate_list:
-            #grass = arcade.Sprite("Images/GrassBlock.png")
-            #grass.center_x = coordinate[0]
-            #grass.center_y = coordinate[1]
-            #self.grass_list.append(grass)
+        # platform
         for x in range(0, SCREEN_WIDTH, 64):
             grass = arcade.Sprite("Images/GrassBlock.png")
             grass.center_x = x
@@ -94,18 +79,18 @@ class MyGame(arcade.Window):
             self.grass_list.append(grass)
 
 
-
-
-
-
     # defining setup function
-
     #def setup(self):
         # sprite lists
 
 
 
 
+    def setup(self):
+        self.player_sprite = arcade.Sprite()
+        self.player_sprite_list = arcade.SpriteList()
+        self.player_sprite_list.append(self.player)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
 
     # defining drawing function
     def on_draw(self):
@@ -149,15 +134,29 @@ class MyGame(arcade.Window):
         if self.current_state == INSTRUCTION_PAGE_1:
             if key == arcade.key.ENTER:
                 self.current_state = MAP_1_PAGE
+        # self.wall_list.draw()
+        # self.player_sprite_list.draw
+        self.player.draw()
 
+    # defining movement functions
+        if key == arcade.key.A:
+            self.player.change_x = -PLAYER_SPEED
+        if key == arcade.key.D:
+            self.player.change_x = PLAYER_SPEED
+        if key == arcade.key.SPACE:
+                self.player.change_y = JUMP_SPEED
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.A or key == arcade.key.D:
             self.player.change_x = 0
+        if key == arcade.key.SPACE:
+            self.player.change_y = -GRAVITY
+
 # defining main function
 
 def main():
     window = MyGame()
     arcade.run()
+
 
 main()

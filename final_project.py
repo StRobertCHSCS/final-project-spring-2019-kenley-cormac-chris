@@ -5,7 +5,7 @@ import time
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BACKGROUND_COLOUR = arcade.color.GREEN
+BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
 GAME_RUNNING = 2
@@ -154,7 +154,6 @@ class MyGame(arcade.Window):
         self.bullet.update()
         # self.wall_list.draw()
         # self.player_sprite_list.draw
-        self.player.draw()
 
     # defining key functions
     def on_key_press(self, key, modifiers):

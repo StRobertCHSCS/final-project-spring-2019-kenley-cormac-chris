@@ -5,7 +5,7 @@ import time
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BACKGROUND_COLOUR = arcade.color.GREEN
+BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
 GAME_RUNNING = 2
@@ -148,6 +148,16 @@ class MyGame(arcade.Window):
             self.grass_list.draw()
             self.bullet.draw()
 
+<<<<<<< HEAD
+=======
+    # defining update function
+    def update(self, delta_time):
+        self.player.update()
+        self.bullet.update()
+        # self.wall_list.draw()
+        # self.player_sprite_list.draw
+
+>>>>>>> ab5dfa2deb611f525569fab2480573ac4943126e
     # defining key functions
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE:

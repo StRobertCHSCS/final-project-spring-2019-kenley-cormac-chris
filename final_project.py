@@ -79,24 +79,18 @@ class MyGame(arcade.Window):
             self.grass_list.append(grass)
 
 
-    # defining setup function
-    #def setup(self):
-        # sprite lists
-
-
-
-
     def setup(self):
         self.player_sprite = arcade.Sprite()
         self.player_sprite_list = arcade.SpriteList()
         self.player_sprite_list.append(self.player)
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list, GRAVITY)
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
+
 
     # defining drawing function
     def on_draw(self):
         arcade.start_render()
 
-        #self.player.draw()
 
         # drawing title page
         if self.current_state == TITLE_PAGE_1:
@@ -117,6 +111,7 @@ class MyGame(arcade.Window):
     # defining update function
     def update(self, delta_time):
         self.player.update()
+
 
 
     # defining key functions

@@ -163,7 +163,7 @@ class MyGame(arcade.Window):
                 self.player.change_x = -PLAYER_SPEED
                 self.bullet.change_x = -PLAYER_SPEED
 
-            if key == arcade.key.A and self.bullet.center_x != self.player.center_x:
+            #if key == arcade.key.A and self.bullet.center_x != self.player.center_x:
 
             elif key == arcade.key.A and self.bullet.center_x != self.player.center_x:
                 self.player.change_x = -PLAYER_SPEED

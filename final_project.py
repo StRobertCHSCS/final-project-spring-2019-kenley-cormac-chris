@@ -81,7 +81,7 @@ class MyGame(arcade.Window):
 
         self.player = Player(200, 90, 0, 0)
         self.bullet = Bullet(200, 90, 0, 0)
-        self.enemy = Enemy(600, 90, -5, 0)
+        self.enemy = Enemy(900, 90, -3, 0)
 
         # defining lists and engines
         self.grass_list = None
@@ -164,7 +164,6 @@ class MyGame(arcade.Window):
     # defining key functions
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE:
-<<<<<<< HEAD
             # defining movement functions
             if key == arcade.key.G:
                 self.bullet.change_x = BULLET_SPEED
@@ -173,26 +172,6 @@ class MyGame(arcade.Window):
                 self.bullet.change_x = -PLAYER_SPEED
             elif key == arcade.key.A and self.bullet.center_x != self.player.center_x:
                 self.player.change_x = -PLAYER_SPEED
-=======
-
-            # defining movement functions
-
-            # if key == arcade.key.A:
-            #     self.player.change_x = -PLAYER_SPEED
-            # if key == arcade.key.D:
-            #     self.player.change_x = PLAYER_SPEED
-
-            if key == arcade.key.G:
-                self.bullet.change_x = BULLET_SPEED
-            if key == arcade.key.A and self.bullet.center_x == self.player.center_x:
-                self.player.change_x = -PLAYER_SPEED
-                self.bullet.change_x = -PLAYER_SPEED
-
-            #if key == arcade.key.A and self.bullet.center_x != self.player.center_x:
-
-            elif key == arcade.key.A and self.bullet.center_x != self.player.center_x:
-                self.player.change_x = -PLAYER_SPEED
->>>>>>> 83610ba5bfdae5de73b6641917eabaec83f3c38f
             if key == arcade.key.D and self.bullet.center_x == self.player.center_x:
                 self.player.change_x = PLAYER_SPEED
                 self.bullet.change_x = PLAYER_SPEED
@@ -200,13 +179,6 @@ class MyGame(arcade.Window):
                 self.player.change_x = PLAYER_SPEED
             if key == arcade.key.SPACE:
                 self.player.change_y = JUMP_SPEED
-<<<<<<< HEAD
-=======
-            # if key == arcade.key.A:
-            #     self.player.change_x = -PLAYER_SPEED
-            # if key == arcade.key.D:
-            #     self.player.change_x = PLAYER_SPEED
->>>>>>> 83610ba5bfdae5de73b6641917eabaec83f3c38f
 
         if self.current_state == TITLE_PAGE_1:
             if key == arcade.key.I:
@@ -215,11 +187,6 @@ class MyGame(arcade.Window):
         if self.current_state == INSTRUCTION_PAGE_1:
             if key == arcade.key.ENTER:
                 self.current_state = MAP_1_PAGE
-
-<<<<<<< HEAD
-=======
-    # defining movement functions
->>>>>>> 83610ba5bfdae5de73b6641917eabaec83f3c38f
 
     def on_key_release(self, key, modifiers):
         if (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x == self.player.center_x:

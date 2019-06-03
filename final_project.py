@@ -26,10 +26,22 @@ TILE_SCALING = 1
 class Player(arcade.Sprite):
     def __init__(self, center_x, center_y, change_x, change_y):
         super().__init__(None, 1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.center_x_x = center_x
+        self.center_x = center_x
         self.center_y = center_y
         self.change_x = change_x
         self.change_y = change_y
+
+    def draw(self):
+        size = 50
+        arcade.draw_rectangle_filled(self.center_x, self.center_y, size, size, SPRITE_COLOUR)
+
+    def update(self):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+class Enemy(Player):
+    def __init__(self, center_x, center_y, change_x, change_y):
+        super().__init__(center_x, center_y, change_x, change_y)
 
     def draw(self):
         size = 50
@@ -69,6 +81,7 @@ class MyGame(arcade.Window):
 
         self.player = Player(200, 90, 0, 0)
         self.bullet = Bullet(200, 90, 0, 0)
+        self.enemy = Enemy(600, 90, -5, 0)
 
         # defining lists and engines
         self.grass_list = None
@@ -137,6 +150,7 @@ class MyGame(arcade.Window):
             self.draw_map_1(3)
             # self.player_list.draw
             self.player.draw()
+            self.enemy.draw()
             self.grass_list.draw()
             self.bullet.draw()
 
@@ -144,6 +158,7 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
         self.player.update()
         self.bullet.update()
+        self.enemy.update()
         super().update(5)
 
     # defining key functions
@@ -204,6 +219,7 @@ class MyGame(arcade.Window):
         # self.physics_engine.update()
         self.player.update()
         self.bullet.update()
+        self.enemy.update()
 # defining main function
 
 def main():

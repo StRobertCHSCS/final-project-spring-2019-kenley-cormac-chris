@@ -1,5 +1,4 @@
 import arcade
-import time
 
 # defining constants
 
@@ -9,7 +8,7 @@ BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 SPRITE_COLOUR = arcade.color.ARTICHOKE
 PLAYER_SPEED = 5
 GAME_RUNNING = 2
-BULLET_SPEED = 20
+BULLET_SPEED = 30
 GRAVITY = 5
 JUMP_SPEED = 10
 
@@ -73,8 +72,7 @@ class MyGame(arcade.Window):
         # defining lists and engines
         self.grass_list = None
         self.physics_engine = None
-        self.wall_list = None
-        self.player_sprite = None
+        # self.player_sprite = None
         self.player_list = None
 
 
@@ -100,24 +98,32 @@ class MyGame(arcade.Window):
         self.grass_list = arcade.SpriteList()
         for x in range(0, SCREEN_WIDTH, 64):
             grass = arcade.Sprite("Images/GrassBlock.png")
-            grass.center_x = x
-            grass.center_y = 32
+            grass.bottom = 0
+            grass.left = x
             self.grass_list.append(grass)
     # defining setup function
-
     def setup(self):
+
         # defining lists
-        self.player_sprite_list = arcade.SpriteList
-        self.wall_list = arcade.SpriteList
         self.player_list = arcade.SpriteList()
-        self.player_list.append(self.player_sprite)
+        self.grass_list = arcade.SpriteList()
+        self.player_list.append(self.player)
+
+        '''
+        self.player_sprite = arcade.SpriteList("images/character1.png", 0.1)
+        self.player_sprite.center_x = 100
+        self.player_sprite.center_y = 100
+        self.player_sprite.change_x = 0
+        self.player_sprite.change_y = 0
+        '''
 
         # player sprite settings
-        self.player__sprite = arcade.Sprite("images/character1.png", 0.1)
+        '''
         self.player_sprite_list = arcade.SpriteList()
         self.player_sprite_list.append(self.player_sprite)
+        '''
 
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list, gravity_constant=GRAVITY)
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player, self.grass_list)
 
     # defining drawing function
     def on_draw(self):
@@ -135,16 +141,13 @@ class MyGame(arcade.Window):
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
             self.draw_map_1(3)
+            self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, self.grass_list,
+                                                                 gravity_constant=GRAVITY)
             # self.player_list.draw
             self.player.draw()
             self.grass_list.draw()
             self.bullet.draw()
 
-    # defining update function
-    def update(self, delta_time):
-        self.player.update()
-        self.bullet.update()
-        super().update(5)
 
     # defining key functions
     def on_key_press(self, key, modifiers):
@@ -173,7 +176,8 @@ class MyGame(arcade.Window):
             if key == arcade.key.D and self.bullet.center_x != self.player.center_x:
                 self.player.change_x = PLAYER_SPEED
             if key == arcade.key.SPACE:
-                self.player.change_y = JUMP_SPEED
+                if self.physics_engine.can_jump():
+                    self.player.change_y = JUMP_SPEED
             # if key == arcade.key.A:
             #     self.player.change_x = -PLAYER_SPEED
             # if key == arcade.key.D:
@@ -195,15 +199,17 @@ class MyGame(arcade.Window):
             self.bullet.change_x = 0
         elif (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x != self.player.center_x:
             self.player.change_x = 0
-        if key == arcade.key.SPACE:
-            self.player.change_y = -JUMP_SPEED
+        #if key == arcade.key.SPACE:
+         #   self.player.change_y = -JUMP_SPEED
 
     # defining update function
 
+    # defining update function
     def update(self, delta_time):
-        # self.physics_engine.update()
         self.player.update()
         self.bullet.update()
+        # self.physics_engine.update()
+
 # defining main function
 
 def main():

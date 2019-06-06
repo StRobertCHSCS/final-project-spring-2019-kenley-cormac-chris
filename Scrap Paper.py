@@ -53,9 +53,6 @@ class Enemy(Player):
 class Bullet(arcade.Sprite):
     def __init__(self):
         self.speed = 15
-        self.center_x = 0
-        self.center_y = 0
-        self.change_x = 0
 
     def draw(self):
         width = 10
@@ -177,10 +174,7 @@ class MyGame(arcade.Window):
                 self.current_state = MAP_1_PAGE
 
     def on_key_release(self, key, modifiers):
-        if (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x == self.player.center_x:
-            self.player.change_x = 0
-            self.bullet.change_x = 0
-        elif (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x != self.player.center_x:
+        if key == arcade.key.A or key == arcade.key.D:
             self.player.change_x = 0
         if key == arcade.key.SPACE:
             self.player.change_y = -JUMP_SPEED

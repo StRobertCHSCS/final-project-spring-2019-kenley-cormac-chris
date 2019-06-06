@@ -178,10 +178,8 @@ class MyGame(arcade.Window):
             if key == arcade.key.D:
                 self.player_sprite.change_x = PLAYER_SPEED
             if key == arcade.key.W:
-                self.player_sprite.change_y = JUMP_SPEED
-
-
-
+                if self.physics_engine.can_jump():
+                    self.player_sprite.change_y = JUMP_SPEED
 
         # map states
         if self.current_state == TITLE_PAGE_1:

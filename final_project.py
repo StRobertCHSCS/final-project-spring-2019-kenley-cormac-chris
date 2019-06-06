@@ -23,13 +23,13 @@ TILE_SCALING = 1
 
 # creating game class
 
-class Player():
+class Player(arcade.Sprite):
     def __init__(self, center_x, center_y, change_x, change_y):
-        self.center_x = center_x
+        super().__init__(None, 1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.center_x_x = center_x
         self.center_y = center_y
         self.change_x = change_x
         self.change_y = change_y
-        self.player_sprite_list = arcade.SpriteList()
 
     def draw(self):
         size = 50
@@ -65,16 +65,22 @@ class MyGame(arcade.Window):
 
     def __init__(self):
 
-
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Our game name TBD")
-        self.player = Player(200, 200, 0, 0)
-        self.bullet = Bullet(200, 200, 0, 0)
-        self.player_sprite = None
-        self.player_sprite_list = None
+
+        self.player = Player(200, 90, 0, 0)
+        self.bullet = Bullet(200, 90, 0, 0)
+
+        # defining lists and engines
         self.grass_list = None
         self.physics_engine = None
         self.wall_list = None
         self.floor_list = [100]
+        self.player_sprite = None
+        self.player_list = None
+
+
+        # setting background
+        arcade.set_background_color(BACKGROUND_COLOUR)
 
         # screen state
         self.current_state = TITLE_PAGE_1
@@ -94,29 +100,41 @@ class MyGame(arcade.Window):
         # sprite lists
         self.grass_list = arcade.SpriteList()
 
+
         # sprite lists
         self.grass_list = arcade.SpriteList()
-        # platform
 
+        # platform
         for x in range(0, SCREEN_WIDTH, 64):
             grass = arcade.Sprite("Images/GrassBlock.png")
             grass.center_x = x
             grass.center_y = 32
             self.grass_list.append(grass)
 
+    # defining setup function
 
     def setup(self):
-        self.player_sprite = arcade.Sprite()
+        # defining lists
+        self.player_sprite_list = arcade.SpriteList
+        self.wall_list = arcade.SpriteList
+        self.player_list = arcade.SpriteList()
+        self.player_list.append(self.player_sprite)
+
+        # player sprite settings
+        self.player__sprite = arcade.Sprite("images/character1.png", 0.1)
         self.player_sprite_list = arcade.SpriteList()
         self.player_sprite_list.append(self.player)
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list, GRAVITY)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
+        self.player_sprite_list.append(self.player_sprite)
 
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list, gravity_constant=GRAVITY)
 
     # defining drawing function
     def on_draw(self):
         arcade.start_render()
+
 
         # drawing title page
         if self.current_state == TITLE_PAGE_1:
@@ -129,6 +147,7 @@ class MyGame(arcade.Window):
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
             self.draw_map_1(3)
+            # self.player_list.draw
             self.player.draw()
             self.grass_list.draw()
             self.bullet.draw()
@@ -139,16 +158,27 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
         self.player.update()
         self.bullet.update()
+        super().update(5)
 
     # defining key functions
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE:
+
+            # defining movement functions
+
+            # if key == arcade.key.A:
+            #     self.player.change_x = -PLAYER_SPEED
+            # if key == arcade.key.D:
+            #     self.player.change_x = PLAYER_SPEED
 
             if key == arcade.key.G:
                 self.bullet.change_x = BULLET_SPEED
             if key == arcade.key.A and self.bullet.center_x == self.player.center_x:
                 self.player.change_x = -PLAYER_SPEED
                 self.bullet.change_x = -PLAYER_SPEED
+
+            #if key == arcade.key.A and self.bullet.center_x != self.player.center_x:
+
             elif key == arcade.key.A and self.bullet.center_x != self.player.center_x:
                 self.player.change_x = -PLAYER_SPEED
             if key == arcade.key.D and self.bullet.center_x == self.player.center_x:
@@ -183,6 +213,7 @@ class MyGame(arcade.Window):
         if key == arcade.key.SPACE:
                 self.player.change_y = JUMP_SPEED
 
+    # defining movement functions
     def on_key_release(self, key, modifiers):
         if (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x == self.player.center_x:
             self.player.change_x = 0

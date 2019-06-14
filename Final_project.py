@@ -8,6 +8,7 @@ GAME_RUNNING = 2
 BULLET_SPEED = 20
 GRAVITY = 1.5
 JUMP_SPEED = 22
+SCOREBOARD_COLOUR = arcade.color.BLACK
 
 
 SPRITE_COLOUR = arcade.color.ORCHID_PINK
@@ -20,14 +21,29 @@ MAP_1_PAGE = 3
 # tiles
 TILE_SCALING = 0.8
 
-class Bullet(arcade.Sprite):
+class Enemy(arcade.Sprite):
 
-    #def __init__(self, center_x, center_y, change_x, change_y):
-        #self.center_x = center_x
-        #self.center_y = center_y
-        #self.change_x = change_x
-        #self.change_y = change_y
-        # self.bullet_sprite_list = arcade.SpriteList()
+
+    def __init__(self, center_x, center_y, change_x, change_y):
+        super().__init__()
+        self.center_x = center_x
+        self.center_y = center_y
+        self.change_x = change_x
+        self.change_y = change_y
+        self.enemy_sprite_list = None
+
+    def draw(self):
+        size = 50
+        arcade.draw_rectangle_filled(self.center_x, self.center_y, size, size, SPRITE_COLOUR)
+
+    def update(self):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if self.center_x > SCREEN_WIDTH:
+            self.kill()
+
+class Bullet(arcade.Sprite):
 
     def draw(self):
         width = 10
@@ -51,10 +67,12 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.grass_list = None
         self.bullet_list = None
+        self.enemy_sprite_list = None
 
         # physics
         self.physics_engine = None
-
+        self.bullet_engine = None
+        self.enemy_engine = None
         # player info
         self.player_sprite = None
 
@@ -75,7 +93,7 @@ class MyGame(arcade.Window):
     def draw_map_1(self, page_number):
 
         # sprite lists
-        self.grass_list = arcade.SpriteList()
+
         # PUT IN COORD LIST LATER
         grass = arcade.Sprite("Images/GrassBlock.png", TILE_SCALING)
         grass.center_x = 180
@@ -113,6 +131,7 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.grass_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        self.enemy_sprite_list = arcade.SpriteList()
 
         # sprite player
         self.player_sprite = arcade.Sprite("Images/BlueBlock.png", TILE_SCALING)
@@ -122,17 +141,32 @@ class MyGame(arcade.Window):
         self.player_sprite.change_x = 0
         self.player_list.append(self.player_sprite)
 
+        self.enemy = arcade.Sprite("Images/character1.png", 0.5)
+        self.enemy.center_x = SCREEN_WIDTH
+        self.enemy.center_y = 100
+        self.enemy.change_x = -3
+        self.enemy.change_y = 0
+        self.enemy_sprite_list.append(self.enemy)
+
         self.bullet = Bullet("Images/Bullet.png", 0.5)
         self.bullet.center_x = 100
         self.bullet.center_y = 100
+        self.bullet_list.append(self.bullet)
 
         # physics
         #self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                              #gravity_constant=GRAVITY)
 
-
-
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
+        self.bullet_engine = arcade.PhysicsEngineSimple(self.enemy, self.bullet_list)
+        #self.enemy_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.enemy_sprite_list)
+        player_hit_lit = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_sprite_list)
+
+        player_hp = 1
+        for self.player_sprite in player_hit_lit:
+            player_hp -= 1
+            if player_hp == 0:
+                self.player_sprite.kill()
 
     def on_draw(self):
         arcade.start_render()
@@ -149,13 +183,12 @@ class MyGame(arcade.Window):
         if self.current_state == MAP_1_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
+            #arcade.draw_text("Score: " + player_hp, 50, 700, SCOREBOARD_COLOUR)
             self.draw_map_1(3)
+            self.enemy.draw()
             self.grass_list.draw()
             self.bullet_list.draw()
             self.player_list.draw()
-
-
-
 
     def on_key_press(self, key, modifiers):
 
@@ -169,7 +202,7 @@ class MyGame(arcade.Window):
                 #bullet.center_y = 100
                 self.bullet.change_x = BULLET_SPEED
                 self.bullet_list.append(self.bullet)
-                self.bullet_list.change_x = BULLET_SPEED
+                #self.bullet_list.change_x = BULLET_SPEED
                 self.bullet.center_x = self.player_sprite.center_x
                 self.bullet.center_y = self.player_sprite.center_y
                 self.bullet.update()
@@ -200,16 +233,20 @@ class MyGame(arcade.Window):
             #self.player_sprite.change_y = -JUMP_SPEED
 
     def update(self, delta_time):
-
         # update player movement
         self.player_sprite.center_x += self.player_sprite.change_x
 
+        self.enemy.update()
 
         # update sprite lists
+
         self.bullet_list.update()
+
+
 
         #update physics
         self.physics_engine.update()
+        self.bullet_engine.update()
 
 
 

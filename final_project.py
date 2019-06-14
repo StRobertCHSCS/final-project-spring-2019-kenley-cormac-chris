@@ -168,12 +168,6 @@ class MyGame(arcade.Window):
             self.player.draw()
 
 
-    # defining update function
-    def update(self, delta_time):
-        self.player.update()
-        self.bullet.update()
-        self.enemy.update()
-        super().update(5)
 
     # defining key functions
     def on_key_press(self, key, modifiers):
@@ -202,26 +196,8 @@ class MyGame(arcade.Window):
             if key == arcade.key.ENTER:
                 self.current_state = MAP_1_PAGE
 
-<<<<<<< HEAD
-        # shooting
-        if key == arcade.key.G:
-            self.bullet.change_x = BULLET_SPEED
-        if key == arcade.key.A and self.bullet.center_x == self.player.center_x:
-            self.player.change_x = -PLAYER_SPEED
-            self.bullet.change_x = -PLAYER_SPEED
-        elif key == arcade.key.A and self.bullet.center_x != self.player.center_x:
-            self.player.change_x = -PLAYER_SPEED
-        if key == arcade.key.D and self.bullet.center_x == self.player.center_x:
-            self.player.change_x = PLAYER_SPEED
-            self.bullet.change_x = PLAYER_SPEED
-        elif key == arcade.key.D and self.bullet.center_x != self.player.center_x:
-            self.player.change_x = PLAYER_SPEED
-        if key == arcade.key.SPACE:
-                self.player.change_y = JUMP_SPEED
 
     # defining movement functions
-=======
->>>>>>> Chris-dev
     def on_key_release(self, key, modifiers):
         if (key == arcade.key.A or key == arcade.key.D) and self.bullet.center_x == self.player.center_x:
             self.player.change_x = 0
@@ -238,11 +214,7 @@ class MyGame(arcade.Window):
         #self.physics_engine.update()
         self.player.update()
         self.bullet.update()
-<<<<<<< HEAD
-
-=======
         self.enemy.update()
->>>>>>> Chris-dev
 # defining main function
 
 def main():

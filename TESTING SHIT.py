@@ -22,29 +22,12 @@ MAP_2_PAGE = 4
 TILE_SCALING = 0.8
 
 class Enemy(arcade.Sprite):
-    #def __init__(self, center_x, center_y, change_x, change_y):
-        #super().__init__(None, 1, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        #self.center_x = center_x
-        #self.center_y = center_y
-        #self.change_x = change_x
-        #self.change_y = change_y
-
-    #def draw(self):
-        #size = 50
-        #arcade.draw_rectangle_filled(self.center_x, self.center_y, size, size, SPRITE_COLOUR)
 
     def update(self):
-        self.center_x -= 3
+        self.center_x += self.change_x
         self.center_y += self.change_y
 
 class Bullet(arcade.Sprite):
-
-    #def __init__(self, center_x, center_y, change_x, change_y):
-        #self.center_x = center_x
-        #self.center_y = center_y
-        #self.change_x = change_x
-        #self.change_y = change_y
-        # self.bullet_sprite_list = arcade.SpriteList()
 
     def update(self):
         self.center_x += self.change_x
@@ -57,11 +40,11 @@ class Bullet(arcade.Sprite):
 class Spike(arcade.Sprite):
 
     def reset_pos(self):
-        self.center_x = 520
+        self.center_x = self.center_x
         self.center_y = 600
 
     def update(self):
-        self.center_y -= 10
+        self.center_y -= 9
         self.center_x += self.change_x
         if self.center_y < 60:
             self.reset_pos()
@@ -102,6 +85,7 @@ class MyGame(arcade.Window):
         arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
 
     def draw_map_1(self, page_number):
+        arcade.set_background_color(arcade.color.BABY_BLUE)
 
         # sprite lists
         self.grass_list = arcade.SpriteList()
@@ -134,16 +118,6 @@ class MyGame(arcade.Window):
         checkpoint_1.center_y = 450
         self.checkpoint_list.append(checkpoint_1)
 
-        # enemy
-        enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
-        enemy_sprite.center_x = 800
-        enemy_sprite.center_y = 90
-        self.enemy_list.append(enemy_sprite)
-
-        #spike_1 = Spike("Images/Spike.png", TILE_SCALING)
-        #spike_1.center_x = 550
-        #spike_1.center_y = 550
-        #self.spike_list.append(spike_1)
 
 
     def draw_map_2(self, page_number):
@@ -168,12 +142,6 @@ class MyGame(arcade.Window):
             grass.center_x = x
             grass.center_y = 32
             self.grass_list.append(grass)
-
-        # spikes
-        #spike_1 = Spike("Images/Spike.png", TILE_SCALING)
-        #spike_1.center_x = 550
-        #spike_1.center_y = 550
-        #self.spike_list.append(spike_1)
 
         # checkpoint
         checkpoint_1 = arcade.Sprite("Images/Checkpoint.png", TILE_SCALING)
@@ -212,19 +180,28 @@ class MyGame(arcade.Window):
         self.player_sprite.change_x = 0
         self.player_list.append(self.player_sprite)
 
-        # bullet
-        self.bullet_sprite = Bullet("Images/Bullet.png", 0.5)
-        self.bullet_sprite.center_x = 100
-        self.bullet_sprite.center_y = 100
 
-        # map_1 spike
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
+
+    def setup2(self):
+        # map_2 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
         spike_1.center_x = 550
         spike_1.center_y = 550
         self.spike_list.append(spike_1)
 
+        spike_1 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_1.center_x = 300
+        spike_1.center_y = 550
+        self.spike_list.append(spike_1)
 
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
+        # map_2 enemy
+        enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
+        enemy_sprite.center_x = 800
+        enemy_sprite.center_y = 90
+        enemy_sprite.change_x = -10
+        self.enemy_list.append(enemy_sprite)
+
 
     def on_draw(self):
         arcade.start_render()
@@ -253,6 +230,7 @@ class MyGame(arcade.Window):
         for checkpoint_1 in hit_checkpoint_1_list:
             self.current_state = MAP_2_PAGE
             self.player_sprite.center_x = 25
+            self.setup2()
         if self.current_state == MAP_2_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
@@ -263,6 +241,7 @@ class MyGame(arcade.Window):
             self.player_list.draw()
             self.spike_list.draw()
             self.checkpoint_list.draw()
+
         hit_spike_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
         for spike_1 in hit_spike_1_list:
             self.player_sprite.kill()

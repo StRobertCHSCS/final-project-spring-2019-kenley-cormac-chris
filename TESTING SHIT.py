@@ -224,11 +224,6 @@ class MyGame(arcade.Window):
         self.spike_list.append(spike_1)
 
 
-        # physics
-        #self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
-                                                             #gravity_constant=GRAVITY)
-
-
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.grass_list)
 
     def on_draw(self):
@@ -268,6 +263,9 @@ class MyGame(arcade.Window):
             self.player_list.draw()
             self.spike_list.draw()
             self.checkpoint_list.draw()
+        hit_spike_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
+        for spike_1 in hit_spike_1_list:
+            self.player_sprite.kill()
 
 
     def on_key_press(self, key, modifiers):
@@ -275,11 +273,11 @@ class MyGame(arcade.Window):
         if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE:
 
             # player and bullet movement
-            if key == arcade.key.G:
+            for i in range(5):
                 self.bullet_sprite = Bullet("Images/Bullet.png", 0.5)
                 self.bullet_sprite.center_x = 100
                 self.bullet_sprite.center_y = 100
-
+            if key == arcade.key.G:
                 self.bullet_sprite.change_x = BULLET_SPEED
                 self.bullet_list.append(self.bullet_sprite)
                 self.bullet_list.change_x = BULLET_SPEED

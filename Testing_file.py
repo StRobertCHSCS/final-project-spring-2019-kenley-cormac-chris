@@ -177,6 +177,7 @@ class MyGame(arcade.Window):
             self.player.draw()
 
 
+<<<<<<< HEAD:Testing_file.py
 
     # defining update function
     def update(self, delta_time):
@@ -184,6 +185,8 @@ class MyGame(arcade.Window):
         self.bullet.update()
         self.enemy.update()
         super().update(5)
+=======
+>>>>>>> cfeec4956e36141a4ae0b84e4002e405289e95d0:final_project.py
 
     # defining key functions
     def on_key_press(self, key, modifiers):
@@ -218,6 +221,7 @@ class MyGame(arcade.Window):
             if key == arcade.key.ENTER:
                 self.current_state = MAP_1_PAGE
 
+<<<<<<< HEAD:Testing_file.py
         # shooting
         if key == arcade.key.G:
             self.bullet.change_x = BULLET_SPEED
@@ -233,6 +237,8 @@ class MyGame(arcade.Window):
             self.player.change_x = PLAYER_SPEED
         if key == arcade.key.SPACE:
                 self.player.change_y = JUMP_SPEED
+=======
+>>>>>>> cfeec4956e36141a4ae0b84e4002e405289e95d0:final_project.py
 
     # defining movement functions
     def on_key_release(self, key, modifiers):
@@ -257,7 +263,10 @@ class MyGame(arcade.Window):
         self.player.update()
         self.bullet.update()
         self.enemy.update()
+<<<<<<< HEAD:Testing_file.py
 
+=======
+>>>>>>> cfeec4956e36141a4ae0b84e4002e405289e95d0:final_project.py
 # defining main function
 
 def main():

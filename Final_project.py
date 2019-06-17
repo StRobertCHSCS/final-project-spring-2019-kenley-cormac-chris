@@ -9,6 +9,7 @@ BULLET_SPEED = 20
 GRAVITY = 1.5
 JUMP_SPEED = 22
 SCOREBOARD_COLOUR = arcade.color.BLACK
+player_hp = 1
 
 
 SPRITE_COLOUR = arcade.color.ORCHID_PINK
@@ -52,7 +53,6 @@ class Spike(arcade.Sprite):
         if self.center_y < 60:
             self.reset_pos()
 
-
 class MyGame(arcade.Window):
     def __init__(self):
 
@@ -65,6 +65,7 @@ class MyGame(arcade.Window):
         self.bullet_list = None
         self.enemy_list = None
         self.checkpoint_list = None
+        self.health_pickup_list = None
         self.spike_list = None
 
         # physics
@@ -98,11 +99,13 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 100
         self.player_sprite.change_x = 0
         self.player_sprite.change_x = 0
+        self.player_sprite.health = 1
         self.player_list.append(self.player_sprite)
 
         self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         self.enemy_sprite.center_x = 800
         self.enemy_sprite.center_y = 90
+        self.enemy_sprite.health = 1
         self.enemy_list.append(self.enemy_sprite)
 
         # map_1 spike
@@ -141,7 +144,6 @@ class MyGame(arcade.Window):
         arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
 
     def draw_map_1(self, page_number):
-
         # sprite lists
         self.grass_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
@@ -219,15 +221,32 @@ class MyGame(arcade.Window):
         if self.current_state == INSTRUCTION_PAGE_1:
             self.draw_instruction_page(2)
 
+
+        hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
+
+        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
+
+        bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
+
+        for checkpoint_1 in hit_checkpoint_1_list:
+            self.current_state = MAP_2_PAGE
+            self.player_sprite.center_x = 25
+
+        for enemy in bullet_enemy_collision:
+            self.enemy_sprite.health -= 1
+            if self.enemy_sprite.health == 0:
+                self.enemy_sprite.center_x = -50
+            print(self.enemy_sprite.health)
+
+        for player in player_enemy_collision:
+            self.player_sprite.health -= 1
+            if self.player_sprite.health == 0:
+                self.player_sprite.kill()
+
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
-
-
-
-            #arcade.draw_text("Score: " + player_hp, 50, 700, SCOREBOARD_COLOUR)
-
 
             self.draw_map_1(3)
             self.grass_list.draw()
@@ -235,30 +254,9 @@ class MyGame(arcade.Window):
             self.bullet_list.draw()
             self.player_list.draw()
             self.checkpoint_list.draw()
+            arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
 
-        # draw map_2
-        hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
-
-        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
-        player_hp = 1
-
-        bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
-        enemy_hp = 1
-
-        for checkpoint_1 in hit_checkpoint_1_list:
-            self.current_state = MAP_2_PAGE
-            self.player_sprite.center_x = 25
-
-        for bullet in bullet_enemy_collision:
-            enemy_hp -= 1
-            if enemy_hp == 0:
-                self.enemy_sprite.kill()
-
-        for player in player_enemy_collision:
-            player_hp -= 1
-            if player_hp == 0:
-                self.player_sprite.kill()
-
+        # drawing map_2
         if self.current_state == MAP_2_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)

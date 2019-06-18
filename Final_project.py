@@ -18,6 +18,7 @@ INSTRUCTION_PAGE_1 = 2
 MAP_1_PAGE = 3
 MAP_2_PAGE = 4
 
+
 # tiles
 TILE_SCALING = 0.8
 

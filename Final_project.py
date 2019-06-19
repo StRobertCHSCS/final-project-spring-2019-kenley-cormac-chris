@@ -56,7 +56,7 @@ class Spike(arcade.Sprite):
 class MyGame(arcade.Window):
     def __init__(self):
 
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Our game name TBD")
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Block adventures")
         # self.enemy = Enemy(900, 90, -3, 0)
 
         # holds sprites
@@ -83,14 +83,44 @@ class MyGame(arcade.Window):
 
 
     def draw_title_page(self, page_number):
-        arcade.set_background_color(arcade.color.WHITE)
-        arcade.draw_text("TITLE PAGE", 350, 300, arcade.color.BLACK, 20)
-        arcade.draw_text("PRESS I FOR INSTRUCTIONS", 275, 200, arcade.color.GRAY, 18)
+        arcade.set_background_color(arcade.color.SKY_BLUE)
+        arcade.draw_rectangle_filled(495, 50, 990, 100, arcade.color.GREEN)
+        block_image = arcade.load_texture("Images/BlueBlock.png")
+        scale = 1.7
+        arcade.draw_texture_rectangle(315, 410, scale * block_image.width, scale * block_image.height, block_image, 0)
+        arcade.draw_text("BL    CK", 80, 340, arcade.color.BLACK, 130)
+        arcade.draw_text("ADVENTURES", 50, 200, arcade.color.BLACK, 130)
+        arcade.draw_text("PRESS I FOR INSTRUCTIONS", 630, 30, arcade.color.DARK_GRAY, 25)
 
     def draw_instruction_page(self, page_number):
-        arcade.set_background_color(arcade.color.WHITE)
-        arcade.draw_text("INSTRUCTIONS", 350, 500, arcade.color.PALATINATE_BLUE, 20)
-        arcade.draw_text("PRESS ENTER TO START", 310, 300, arcade.color.ORCHID_PINK, 18)
+        arcade.set_background_color(arcade.color.WHEAT)
+        arcade.draw_text("INSTRUCTIONS", 30, 515, arcade.color.BLACK, 60)
+        arcade.draw_text("YOU ARE A BLOCK... "
+                         "\nON AN ADVENTURE..."
+                         "\nIT'S IN THE TITLE. "
+                         "\nIT'S PRETTY STRAIGHT-"
+                         "\nFORWARD. USE W, A, D"
+                         "\nTO MOVE AROUND"
+                         "\nUSE G TO GURK ENEMIES."
+                         "\nSEE IF YOU CAN MAKE "
+                         "\nIT TO THE END!", 30, 150, arcade.color.BLACK, 35)
+        block_image = arcade.load_texture("Images/W KEY.png")
+        scale = 0.2
+        arcade.draw_texture_rectangle(625, 420, scale * block_image.width, scale * block_image.height, block_image, 0)
+        arcade.draw_text("- JUMP", 700, 395, arcade.color.BLACK, 40)
+        block_image = arcade.load_texture("Images/A KEY.png")
+        scale = 0.2
+        arcade.draw_texture_rectangle(575, 302.5, scale * block_image.width, scale * block_image.height, block_image, 0)
+        block_image = arcade.load_texture("Images/D KEY.png")
+        scale = 0.2
+        arcade.draw_texture_rectangle(675, 302.5, scale * block_image.width, scale * block_image.height, block_image, 0)
+        arcade.draw_text("- SLIDE", 750, 277.5, arcade.color.BLACK, 40)
+        block_image = arcade.load_texture("Images/G KEY.png")
+        scale = 0.2
+        arcade.draw_texture_rectangle(625, 185, scale * block_image.width, scale * block_image.height, block_image, 0)
+        arcade.draw_text("- SHOOT", 700, 160, arcade.color.BLACK, 40)
+        arcade.draw_text("PRESS ENTER TO START", 660, 30, arcade.color.GRAY, 25)
+
 
     def draw_gameover_page(self, page_number):
         arcade.set_background_color(arcade.color.BLACK)

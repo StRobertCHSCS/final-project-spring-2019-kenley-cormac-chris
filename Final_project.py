@@ -190,9 +190,6 @@ class MyGame(arcade.Window):
         scale = 1.7
         arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
 
-    def draw_gameover_page(self, page_number):
-        arcade.set_background_color(arcade.color.BLACK)
-
     def draw_map_1(self, page_number):
         self.enemy_sprite.center_x -= 3
         arcade.set_background_color(BACKGROUND_COLOUR)
@@ -327,13 +324,10 @@ class MyGame(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
 
-<<<<<<< HEAD
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
-=======
             self.draw_map_1(4)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
->>>>>>> Chris-dev
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
 
@@ -358,7 +352,11 @@ class MyGame(arcade.Window):
 
         if self.current_state == GAME_OVER:
             arcade.set_background_color(arcade.color.BLACK)
-            arcade.draw_text("YOU LOSE!", (SCREEN_WIDTH/2 - 100), (SCREEN_HEIGHT/2), arcade.color.WHITE, 100, 100)
+            block_image = arcade.load_texture("Images/SadBlueBlock.png")
+            scale = 3
+            arcade.draw_texture_rectangle(SCREEN_WIDTH//2, 150, scale * block_image.width, scale * block_image.height, block_image, 0)
+            arcade.draw_text("OOF YOU LOSE!", 100, (SCREEN_HEIGHT/2), arcade.color.WHITE, 100)
+
 
         if self.player_sprite.health <= 0:
             self.player_sprite.kill()

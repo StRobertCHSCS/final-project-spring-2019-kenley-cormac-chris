@@ -340,10 +340,8 @@ class MyGame(arcade.Window):
 
         hit_checkpoint_2_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list_2)
         for checkpoint_2 in hit_checkpoint_2_list:
-            self.current_state = MAP_3_PAGE
-            self.setup3()
-            self.draw_map_3(5)
-            self.player_sprite.center_x = 25
+            arcade.set_background_color(arcade.color.BLACK)
+            arcade.draw_text("OOF YOU WIN!", 100, (SCREEN_HEIGHT / 2), arcade.color.WHITE, 100)
 
         # drawing map_1
         if self.current_state == MAP_1_PAGE:

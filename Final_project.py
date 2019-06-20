@@ -17,6 +17,7 @@ TITLE_PAGE_1 = 1
 INSTRUCTION_PAGE_1 = 2
 MAP_1_PAGE = 3
 MAP_2_PAGE = 4
+MAP_3_PAGE = 5
 
 
 # tiles
@@ -65,8 +66,10 @@ class MyGame(arcade.Window):
         self.bullet_list = None
         self.enemy_list = None
         self.checkpoint_list = None
+        self.checkpoint_list_2 = None
         self.health_pickup_list = None
         self.spike_list = None
+        self.snow_list = None
 
         # physics
         self.physics_engine = None
@@ -129,7 +132,7 @@ class MyGame(arcade.Window):
 
 
     def draw_map_2(self, page_number):
-        arcade.set_background_color(arcade.color.WHITE)
+        arcade.set_background_color(arcade.color.LIGHT_GOLDENROD_YELLOW)
         # sprite list
         self.grass_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
@@ -152,7 +155,7 @@ class MyGame(arcade.Window):
         checkpoint_2 = arcade.Sprite("Images/Checkpoint.png", TILE_SCALING)
         checkpoint_2.center_x = 900
         checkpoint_2.center_y = 300
-        self.checkpoint_list.append(checkpoint_2)
+        self.checkpoint_list_2.append(checkpoint_2)
 
 
         # bullet hits enemy
@@ -163,6 +166,29 @@ class MyGame(arcade.Window):
             if enemy_hp == 2:
                 enemy.kill()
 
+    def draw_map_3(self, pagenumber):
+        arcade.set_background_color(arcade.color.FLORAL_WHITE)
+        self.snow_list = arcade.SpriteList()
+        self.spike_list = arcade.SpriteList()
+
+        coord_list = [[180, 160],
+                      [380, 300],
+                      [650, 400],
+                      [700, 400]]
+
+        for coordinate in coord_list:
+            snow = arcade.Sprite("Images/SnowyBlock.png", TILE_SCALING)
+            snow.center_x = coordinate[0]
+            snow.center_y = coordinate[1]
+            self.snow_list.append(snow)
+
+        for x in range(0, SCREEN_WIDTH, 64):
+            snow = arcade.Sprite("Images/SnowyBlock.png")
+            snow.center_x = x
+            snow.center_y = 32
+            self.snow_list.append(snow)
+
+
     def setup(self):
 
         # sprite lists
@@ -171,6 +197,7 @@ class MyGame(arcade.Window):
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
+        self.checkpoint_list_2 = arcade.SpriteList()
         self.spike_list = arcade.SpriteList()
 
         # sprite player
@@ -214,11 +241,79 @@ class MyGame(arcade.Window):
         enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         enemy_sprite.center_x = 800
         enemy_sprite.center_y = 90
-        enemy_sprite.change_x = -10
+        enemy_sprite.change_x = -20
         self.enemy_list.append(enemy_sprite)
+
+    def setup3(self):
+
+        self.snow_list = arcade.SpriteList()
+        self.spike_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
+
+        coord_list = [[180, 160],
+                      [400, 300],
+                      [650, 400],
+                      [700, 400]]
+
+        for coordinate in coord_list:
+            snow = arcade.Sprite("Images/GrassBlock.png", TILE_SCALING)
+            snow.center_x = coordinate[0]
+            snow.center_y = coordinate[1]
+            self.snow_list.append(snow)
+
+        for x in range(0, SCREEN_WIDTH, 64):
+            snow = arcade.Sprite("Images/SnowyBlock.png")
+            snow.center_x = x
+            snow.center_y = 32
+            self.snow_list.append(snow)
+
+        spike_1 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_1.center_x = 550
+        spike_1.center_y = -40
+        self.spike_list.append(spike_1)
+
+        spike_1 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_1.center_x = 300
+        spike_1.center_y = -40
+        self.spike_list.append(spike_1)
+
+        # map_3 spike
+        spike_3 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_3.center_x = 100
+        spike_3.center_y = 550
+        self.spike_list.append(spike_3)
+
+        spike_3 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_3.center_x = 200
+        spike_3.center_y = 550
+        self.spike_list.append(spike_3)
+
+        spike_3 = Spike("Images/Spike.png", TILE_SCALING)
+        spike_3.center_x = 300
+        spike_3.center_y = 550
+        self.spike_list.append(spike_3)
+
+        enemy_list = [[300, 90], [400, 90], [500, 90], [600, 90], [700, 90], [800, 90], [900, 90]]
+        for coordinate in enemy_list:
+            self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
+            self.enemy_sprite.center_x = coordinate[0]
+            self.enemy_sprite.center_y = coordinate[1]
+            self.enemy_list.append(self.enemy_sprite)
+
+        player_enemy_collision = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
+        for player in player_enemy_collision:
+            self.player_sprite.health -= 1
+            if self.player_sprite.health == 0:
+                self.player_sprite.kill()
+
+
+
 
     def on_draw(self):
         arcade.start_render()
+        hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
+        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
+        bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
 
         # drawing title page
         if self.current_state == TITLE_PAGE_1:
@@ -227,12 +322,6 @@ class MyGame(arcade.Window):
         # drawing instruction page
         if self.current_state == INSTRUCTION_PAGE_1:
             self.draw_instruction_page(2)
-
-        hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
-
-        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
-
-        bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
 
         for checkpoint_1 in hit_checkpoint_1_list:
             self.current_state = MAP_2_PAGE
@@ -248,6 +337,13 @@ class MyGame(arcade.Window):
             self.player_sprite.health -= 1
             if self.player_sprite.health == 0:
                 self.player_sprite.kill()
+
+        hit_checkpoint_2_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list_2)
+        for checkpoint_2 in hit_checkpoint_2_list:
+            self.current_state = MAP_3_PAGE
+            self.setup3()
+            self.draw_map_3(5)
+            self.player_sprite.center_x = 25
 
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
@@ -278,7 +374,7 @@ class MyGame(arcade.Window):
             self.bullet_list.draw()
             self.player_list.draw()
             self.spike_list.draw()
-            self.checkpoint_list.draw()
+            self.checkpoint_list_2.draw()
 
         hit_spike_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
         LIFE = 1
@@ -286,11 +382,21 @@ class MyGame(arcade.Window):
             LIFE -= 1
             if LIFE == 0:
                 self.player_sprite.kill()
+        # draw map 3
+        if self.current_state == MAP_3_PAGE:
+            self.draw_map_3(5)
+            self.setup3()
+            self.snow_list.draw()
+            self.player_list.draw()
+            self.bullet_list.draw()
+            self.spike_list.draw()
+            self.enemy_list.draw()
+
 
 
     def on_key_press(self, key, modifiers):
 
-        if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE:
+        if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE or self.current_state == MAP_3_PAGE:
 
             # player and bullet movement
 
@@ -344,6 +450,7 @@ class MyGame(arcade.Window):
 
         # update checkpoints
         self.checkpoint_list.update()
+        self.checkpoint_list_2.update()
 
         # update physics
         self.physics_engine.update()

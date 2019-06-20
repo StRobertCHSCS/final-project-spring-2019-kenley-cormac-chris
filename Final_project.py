@@ -15,8 +15,9 @@ HEALTH_SCALING = 0.05
 # state of screens
 TITLE_PAGE_1 = 1
 INSTRUCTION_PAGE_1 = 2
-MAP_1_PAGE = 3
-MAP_2_PAGE = 4
+STORY_PAGE_1 = 3
+MAP_1_PAGE = 4
+MAP_2_PAGE = 5
 
 
 # tiles
@@ -175,6 +176,25 @@ class MyGame(arcade.Window):
         arcade.draw_text("- SHOOT", 700, 160, arcade.color.BLACK, 40)
         arcade.draw_text("PRESS ENTER TO START", 660, 30, arcade.color.GRAY, 25)
 
+    def draw_story_page(self, page_number):
+        arcade.set_background_color(arcade.color.SKY_BLUE)
+        arcade.draw_rectangle_filled(495, 50, 990, 100, arcade.color.GREEN)
+        arcade.draw_text('"HEY THIS IS THE VERY INTERESTING BACK STORY '
+                         '\nBEHIND BLOCK ADVENTURE, THIS IS NOT IMPORTANT '
+                         '\nAT ALL TO YOUR GAMEPLAY SO YOU CAN SKIP THIS '
+                         '\nIF YOU WANT BUT HERE IS THE SAD STORY OF BLUE '
+                         '\nBLOCK. BLUE BLOCK WAS A CRACKHEAD.ONE DAY HIS '
+                         '\nMOM TOLD HIM TO GET GROCERIES BUT HE WAS ALREADY '
+                         '\nINTOXICATED OUT OF HIS MIND. AFTER ARGUING WITH '
+                         '\nWHO HE THOUGHT WAS HIS MOM FOR A WHILE (IT WAS '
+                         '\nHIS PET HUMAN) HE GOES OUT TO BUY GROCERIES. '
+                         '\nUNLUCKILY FOR HIM THERE WAS A WHOLE NEW ADVENTURE '
+                         '\nWAITING OUTSIDE FOR HIM. NOT LIKE LORD OF THE RINGS'
+                         '\nBUT NONETHELESS AN ADVENTURE WAY MORE ENTERTAINING '
+                         '\nTHAN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
+        block_image = arcade.load_texture("Images/RedBlock.png")
+        scale = 1.7
+        arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
 
     def draw_gameover_page(self, page_number):
         arcade.set_background_color(arcade.color.BLACK)
@@ -204,8 +224,6 @@ class MyGame(arcade.Window):
             grass.center_x = x
             grass.center_y = 32
             self.grass_list.append(grass)
-
-
 
         # map_1 checkpoint
         checkpoint_1 = arcade.Sprite("Images/Checkpoint.png", TILE_SCALING)
@@ -282,6 +300,10 @@ class MyGame(arcade.Window):
         if self.current_state == INSTRUCTION_PAGE_1:
             self.draw_instruction_page(2)
 
+        # drawing story page
+        if self.current_state == STORY_PAGE_1:
+            self.draw_story_page(3)
+
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
 
         player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
@@ -314,7 +336,7 @@ class MyGame(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
 
-            self.draw_map_1(3)
+            self.draw_map_1(4)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
@@ -328,7 +350,7 @@ class MyGame(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
             #self.enemy_sprite.draw()
-            self.draw_map_2(4)
+            self.draw_map_2(5)
             self.grass_list.draw()
             self.bullet_list.draw()
             self.player_list.draw()
@@ -372,6 +394,10 @@ class MyGame(arcade.Window):
 
         if self.current_state == INSTRUCTION_PAGE_1:
             if key == arcade.key.ENTER:
+                self.current_state = STORY_PAGE_1
+
+        if self.current_state == STORY_PAGE_1:
+            if key == arcade.key.G:
                 self.current_state = MAP_1_PAGE
 
     def on_key_release(self, key, modifiers):

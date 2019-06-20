@@ -358,7 +358,11 @@ class MyGame(arcade.Window):
 
         if self.current_state == GAME_OVER:
             arcade.set_background_color(arcade.color.BLACK)
-            arcade.draw_text("YOU LOSE!", (SCREEN_WIDTH/2 - 100), (SCREEN_HEIGHT/2), arcade.color.WHITE, 100, 100)
+            block_image = arcade.load_texture("Images/SadBlueBlock.png")
+            scale = 3
+            arcade.draw_texture_rectangle(SCREEN_WIDTH//2, 150, scale * block_image.width, scale * block_image.height, block_image, 0)
+            arcade.draw_text("OOF YOU LOSE!", 100, (SCREEN_HEIGHT/2), arcade.color.WHITE, 100)
+
 
         if self.player_sprite.health <= 0:
             self.player_sprite.kill()

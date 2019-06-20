@@ -178,7 +178,7 @@ class MyGame(arcade.Window):
                          '\nUNLUCKILY FOR HIM THERE WAS A WHOLE NEW ADVENTURE '
                          '\nWAITING OUTSIDE FOR HIM. NOT LIKE LORD OF THE RINGS'
                          '\nBUT NONETHELESS AN ADVENTURE WAY MORE ENTERTAINING '
-                         '\nTHAN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
+                         '\nTHEN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
         arcade.draw_text("PRESS G TO START GAME", 630, 30, arcade.color.DARK_GRAY, 25)
         block_image = arcade.load_texture("Images/RedBlock.png")
         scale = 1.7

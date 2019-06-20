@@ -11,6 +11,7 @@ JUMP_SPEED = 22
 SCOREBOARD_COLOUR = arcade.color.BLACK
 BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 GAME_OVER = False
+WIN_PAGE = False
 HEALTH_SCALING = 0.05
 # state of screens
 TITLE_PAGE_1 = 1
@@ -144,7 +145,7 @@ class MyGame(arcade.Window):
                          "\nTO MOVE AROUND"
                          "\nUSE G TO GURK ENEMIES."
                          "\nSEE IF YOU CAN MAKE "
-                         "\nIT TO THE END!", 30, 150, arcade.color.BLACK, 35)
+                         "\nIT TO THE END!", 30, 400, arcade.color.BLACK, 20)
         block_image = arcade.load_texture("Images/W KEY.png")
         scale = 0.2
         arcade.draw_texture_rectangle(625, 420, scale * block_image.width, scale * block_image.height, block_image, 0)
@@ -178,7 +179,7 @@ class MyGame(arcade.Window):
                          '\nUNLUCKILY FOR HIM THERE WAS A WHOLE NEW ADVENTURE '
                          '\nWAITING OUTSIDE FOR HIM. NOT LIKE LORD OF THE RINGS'
                          '\nBUT NONETHELESS AN ADVENTURE WAY MORE ENTERTAINING '
-                         '\nTHEN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
+                         '\nTHEN HIS NORMAL INSIDE LIFE."', 200, 500, arcade.color.BLACK, 20)
         arcade.draw_text("PRESS G TO START GAME", 630, 30, arcade.color.DARK_GRAY, 25)
         block_image = arcade.load_texture("Images/RedBlock.png")
         scale = 1.7
@@ -331,7 +332,6 @@ class MyGame(arcade.Window):
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             self.draw_map_1(4)
-            arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)

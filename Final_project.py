@@ -187,7 +187,7 @@ class MyGame(arcade.Window):
 
     def draw_map_1(self, page_number):
         # sets enemy speed
-        self.enemy_sprite.center_x -= 3
+        self.enemy_sprite.center_x -= 1.5
         # sets background
         arcade.set_background_color(BACKGROUND_COLOUR)
         cloud_image = arcade.load_texture("Images/clouds.png")
@@ -231,7 +231,7 @@ class MyGame(arcade.Window):
 
     def draw_map_2(self, page_number):
         # sets enemy_speed
-        self.enemy_sprite.center_x -= 3
+        self.enemy_sprite.center_x -= 5
 
         # sets background
         arcade.set_background_color(BACKGROUND_COLOUR)
@@ -360,7 +360,7 @@ class MyGame(arcade.Window):
             arcade.set_background_color(arcade.color.BLACK)
             block_image = arcade.load_texture("Images/SadBlueBlock.png")
             scale = 3
-            arcade.draw_texture_rectangle(SCREEN_WIDTH//2, 150, scale * block_image.width, scale * block_image.height, block_image, 0)
+            arcade.draw_texture_rectangle(SCREEN_WIDTH/2, 150, scale * block_image.width, scale * block_image.height, block_image, 0)
             arcade.draw_text("OOF YOU LOSE!", 100, (SCREEN_HEIGHT/2), arcade.color.WHITE, 100)
 
 

@@ -393,8 +393,7 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE:
 
-            # player and bullet movement
-
+            # bullet movement
             if key == arcade.key.G:
                 self.bullet_sprite = Bullet("Images/Bullet.png", 0.5)
                 self.bullet_sprite.change_x = BULLET_SPEED
@@ -404,6 +403,7 @@ class MyGame(arcade.Window):
                 arcade.load_sound("Sounds/laser.wav")
                 arcade.play_sound("Sounds/laser.wav")
 
+            # player movement
             if key == arcade.key.A:
                 self.player_sprite.change_x = -PLAYER_SPEED
             if key == arcade.key.D:
@@ -426,7 +426,7 @@ class MyGame(arcade.Window):
                 self.current_state = MAP_1_PAGE
 
     def on_key_release(self, key, modifiers):
-
+        # player stops movement
         if key == arcade.key.A or key == arcade.key.D:
             self.player_sprite.change_x = 0
 
@@ -434,13 +434,6 @@ class MyGame(arcade.Window):
             self.player_sprite.change_y = 0
 
     def update(self, delta_time):
-
-        # update player movement
-
-        # update enemy
-        # update sprite lists
-
-
         # update sprite lists
         self.bullet_list.update()
         self.spike_list.update()

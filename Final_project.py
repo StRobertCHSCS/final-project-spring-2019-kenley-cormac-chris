@@ -330,11 +330,8 @@ class MyGame(arcade.Window):
 
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
-<<<<<<< HEAD
             self.draw_map_1(4)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
-=======
->>>>>>> b121bb61d2d28483f20a42c57700c8814ddd18fd
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
 

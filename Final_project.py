@@ -57,9 +57,8 @@ class Spike(arcade.Sprite):
 
 class MyGame(arcade.Window):
     def __init__(self):
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Block adventures")
-        # self.enemy = Enemy(900, 90, -3, 0)
 
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Block adventures")
 
         # holds sprites
         self.player_list = None

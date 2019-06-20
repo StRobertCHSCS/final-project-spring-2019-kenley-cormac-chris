@@ -429,12 +429,6 @@ class MyGame(arcade.Window):
 
     def update(self, delta_time):
 
-        # update player movement
-
-        # update enemy
-        # update sprite lists
-
-
         # update sprite lists
         self.bullet_list.update()
         self.spike_list.update()

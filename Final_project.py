@@ -288,8 +288,9 @@ class MyGame(arcade.Window):
         spike_1.center_y = 550
         self.spike_list.append(spike_1)
 
-        # map_2 enemy
+    # defining the on draw function
     def on_draw(self):
+        # render the drawings
         arcade.start_render()
         # drawing title page
         if self.current_state == TITLE_PAGE_1:
@@ -303,33 +304,39 @@ class MyGame(arcade.Window):
         if self.current_state == STORY_PAGE_1:
             self.draw_story_page(3)
 
+        # checking player and checkpoint collision
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
-
+        # checking player and enemy collision
         player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
-
+        # checking player and spike collision
         spike_player_collision = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
-
+        # checking enemy and bullet collision
         bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
 
         health_player_collision = arcade.check_for_collision_with_list(self.player_sprite, self.health_pickup_list)
 
+        # spike hits player, loses 5 health
         for spike in spike_player_collision:
             self.player_sprite.health -= 5
+        # player gets health +50 hp
         for pickup in health_player_collision:
             self.player_sprite.health += 50
             self.health_block.kill()
+        # hitting checkpoint 1
         for checkpoint_1 in hit_checkpoint_1_list:
             self.current_state = MAP_2_PAGE
             self.player_sprite.center_x = 25
             self.setup2()
+        # bullet hitting enemy, kills enemy
         for enemy in bullet_enemy_collision:
             self.enemy_sprite.health -= 1
             if self.enemy_sprite.health == 0:
                 self.player_sprite.score += 1
                 self.enemy_sprite.center_x = -50
+        # player hitting enemy, lose 5 health
         for player in player_enemy_collision:
             self.player_sprite.health -= 5
-
+        # hitting checkpoint 2, win game
         hit_checkpoint_2_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list_2)
         for checkpoint_2 in hit_checkpoint_2_list:
             self.player_sprite.kill()
@@ -344,7 +351,6 @@ class MyGame(arcade.Window):
         if self.current_state == MAP_1_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
-
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             self.draw_map_1(4)
@@ -364,7 +370,7 @@ class MyGame(arcade.Window):
                                                                  gravity_constant=GRAVITY)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
-            #self.enemy_sprite.draw()
+            # load map 2 objects
             self.draw_map_2(5)
             self.grass_list.draw()
             self.bullet_list.draw()

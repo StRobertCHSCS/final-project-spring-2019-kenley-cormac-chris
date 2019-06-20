@@ -12,7 +12,6 @@ JUMP_SPEED = 22
 SCOREBOARD_COLOUR = arcade.color.BLACK
 BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 GAME_OVER = False
-SPRITE_COLOUR = arcade.color.ORCHID_PINK
 HEALTH_SCALING = 0.05
 # state of screens
 TITLE_PAGE_1 = 1

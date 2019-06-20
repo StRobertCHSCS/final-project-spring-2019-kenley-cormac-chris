@@ -1,5 +1,4 @@
 import arcade
-import timeit
 
 # constants
 SCREEN_WIDTH = 990

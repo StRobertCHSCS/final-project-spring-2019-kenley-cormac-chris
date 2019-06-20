@@ -231,7 +231,7 @@ class MyGame(arcade.Window):
 
     def draw_map_2(self, page_number):
         # sets enemy_speed
-        self.enemy_sprite.center_x -= 7
+        self.enemy_sprite.center_x -= 3
 
         # sets background
         arcade.set_background_color(BACKGROUND_COLOUR)

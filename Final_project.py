@@ -166,7 +166,7 @@ class MyGame(arcade.Window):
         arcade.draw_text("- SHOOT", 700, 160, arcade.color.BLACK, 40)
         arcade.draw_text("PRESS ENTER TO START", 660, 30, arcade.color.GRAY, 25)
 
-    # drawing map 1
+    # drawing story page
     def draw_story_page(self, page_number):
         arcade.set_background_color(arcade.color.SKY_BLUE)
         arcade.draw_rectangle_filled(495, 50, 990, 100, arcade.color.GREEN)
@@ -188,12 +188,15 @@ class MyGame(arcade.Window):
         scale = 1.7
         arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
 
+    # drawing game win page
     def win_page(self, page_number):
         arcade.set_background_color(arcade.color.YELLOW)
         arcade.draw_text("YAY YOU WIN!", 100, (SCREEN_HEIGHT / 2), arcade.color.GREEN, 100)
+
+    # drawing map 1
     def draw_map_1(self, page_number):
         # sets enemy speed
-        self.enemy_sprite.center_x -= 1.5
+        self.enemy_sprite.center_x -= 3
         # sets background
         arcade.set_background_color(BACKGROUND_COLOUR)
         cloud_image = arcade.load_texture("Images/clouds.png")
@@ -226,6 +229,8 @@ class MyGame(arcade.Window):
         checkpoint_1.center_x = 700
         checkpoint_1.center_y = 450
         self.checkpoint_list.append(checkpoint_1)
+
+        # drawing all features
         self.grass_list.draw()
         self.health_pickup_list.draw()
         self.enemy_sprite.draw()
@@ -248,6 +253,7 @@ class MyGame(arcade.Window):
         self.grass_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
 
+        # grass locations for map 2
         coord_list = [[180, 160],[425, 300],[650, 400],[700, 400],[700, 400],[900, 250]]
 
         for coordinate in coord_list:
@@ -268,27 +274,28 @@ class MyGame(arcade.Window):
         checkpoint_2.center_y = 300
         self.checkpoint_list_2.append(checkpoint_2)
 
+        # drawing enemy sprite for map 2
         self.enemy_sprite.draw()
 
     def setup2(self):
-
+        # setup for map 2
+        # creates new enemy object for map 2
         self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         self.enemy_sprite.center_x = SCREEN_WIDTH
         self.enemy_sprite.center_y = 90
         self.enemy_sprite.health = 1
         self.spike_list = arcade.SpriteList()
+
         # map_2 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
         spike_1.center_x = 550
         spike_1.center_y = 550
         self.spike_list.append(spike_1)
-
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
         spike_1.center_x = 300
         spike_1.center_y = 550
         self.spike_list.append(spike_1)
 
-        # map_2 enemy
     def on_draw(self):
         arcade.start_render()
         # drawing title page
@@ -302,6 +309,8 @@ class MyGame(arcade.Window):
         # drawing story page
         if self.current_state == STORY_PAGE_1:
             self.draw_story_page(3)
+
+        # creating all collisions
 
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
 
@@ -337,18 +346,11 @@ class MyGame(arcade.Window):
             if self.current_state == WIN_PAGE:
                 self.win_page(6)
 
-
-
-
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
-
-            self.draw_map_1(3)
-            arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             self.draw_map_1(4)
-            self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
@@ -364,7 +366,6 @@ class MyGame(arcade.Window):
                                                                  gravity_constant=GRAVITY)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
-            #self.enemy_sprite.draw()
             self.draw_map_2(5)
             self.grass_list.draw()
             self.bullet_list.draw()
@@ -372,6 +373,7 @@ class MyGame(arcade.Window):
             self.spike_list.draw()
             self.checkpoint_list_2.draw()
 
+        # drawing game over page
         if self.current_state == GAME_OVER:
             arcade.set_background_color(arcade.color.BLACK)
             block_image = arcade.load_texture("Images/SadBlueBlock.png")
@@ -387,8 +389,7 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE:
 
-            # player and bullet movement
-
+            # bullet movement
             if key == arcade.key.G:
                 self.bullet_sprite = Bullet("Images/Bullet.png", 0.5)
                 self.bullet_sprite.change_x = BULLET_SPEED
@@ -398,6 +399,7 @@ class MyGame(arcade.Window):
                 arcade.load_sound("Sounds/laser.wav")
                 arcade.play_sound("Sounds/laser.wav")
 
+            # player movement
             if key == arcade.key.A:
                 self.player_sprite.change_x = -PLAYER_SPEED
             if key == arcade.key.D:
@@ -420,7 +422,7 @@ class MyGame(arcade.Window):
                 self.current_state = MAP_1_PAGE
 
     def on_key_release(self, key, modifiers):
-
+        # player stops movement
         if key == arcade.key.A or key == arcade.key.D:
             self.player_sprite.change_x = 0
 
@@ -428,7 +430,6 @@ class MyGame(arcade.Window):
             self.player_sprite.change_y = 0
 
     def update(self, delta_time):
-
         # update sprite lists
         self.bullet_list.update()
         self.spike_list.update()

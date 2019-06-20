@@ -1,4 +1,5 @@
 import arcade
+import timeit
 
 # constants
 SCREEN_WIDTH = 990
@@ -103,7 +104,7 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 100
         self.player_sprite.change_x = 0
         self.player_sprite.change_x = 0
-        self.player_sprite.health = 1
+        self.player_sprite.health = 100
         self.player_sprite.score = 0
         self.player_list.append(self.player_sprite)
 
@@ -250,7 +251,7 @@ class MyGame(arcade.Window):
         self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         self.enemy_sprite.center_x = SCREEN_WIDTH
         self.enemy_sprite.center_y = 90
-        self.enemy_sprite.health = 1
+        self.enemy_sprite.health = 100
         self.spike_list = arcade.SpriteList()
         # map_2 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
@@ -285,23 +286,21 @@ class MyGame(arcade.Window):
         health_player_collision = arcade.check_for_collision_with_list(self.player_sprite, self.health_pickup_list)
 
         for spike in spike_player_collision:
-            self.player_sprite.health -= 1
-
+            self.player_sprite.health -= 5
         for pickup in health_player_collision:
-            self.player_sprite.health += 1
+            self.player_sprite.health += 50
             self.health_block.kill()
         for checkpoint_1 in hit_checkpoint_1_list:
             self.current_state = MAP_2_PAGE
             self.player_sprite.center_x = 25
             self.setup2()
         for enemy in bullet_enemy_collision:
-            self.enemy_sprite.health -= 1
+            self.enemy_sprite.health -= 5
             if self.enemy_sprite.health == 0:
                 self.player_sprite.score += 1
                 self.enemy_sprite.center_x = -50
-
         for player in player_enemy_collision:
-            self.player_sprite.health -= 1
+            self.player_sprite.health -= 5
 
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
@@ -309,7 +308,7 @@ class MyGame(arcade.Window):
                                                                  gravity_constant=GRAVITY)
 
             self.draw_map_1(3)
-            arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
+            arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
 

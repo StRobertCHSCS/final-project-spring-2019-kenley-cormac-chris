@@ -183,11 +183,11 @@ class MyGame(arcade.Window):
                          '\nHIS PET HUMAN) HE GOES OUT TO BUY GROCERIES. '
                          '\nUNLUCKILY FOR HIM THERE WAS A WHOLE NEW ADVENTURE '
                          '\nWAITING OUTSIDE FOR HIM. NOT LIKE LORD OF THE RINGS'
-                         '\nBUT NONETHELESS AN ADVENTURE WAY MORE ENTERTAINING '
-                         '\nTHAN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
+                         '\nBUT NONETHELESS AN ADVENTURE WAY MORE '
+                         '\nENTERTAINING THAN HIS NORMAL INSIDE LIFE. (PRESS SPACE)"', 150, 500, arcade.color.BLACK, 20)
         block_image = arcade.load_texture("Images/RedBlock.png")
         scale = 1.7
-        arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
+        arcade.draw_texture_rectangle(75, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
 
     def draw_gameover_page(self, page_number):
         arcade.set_background_color(arcade.color.BLACK)
@@ -326,13 +326,11 @@ class MyGame(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
 
-<<<<<<< HEAD
+
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
-=======
             self.draw_map_1(4)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
->>>>>>> Chris-dev
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
 
@@ -395,7 +393,7 @@ class MyGame(arcade.Window):
                 self.current_state = STORY_PAGE_1
 
         if self.current_state == STORY_PAGE_1:
-            if key == arcade.key.G:
+            if key == arcade.key.SPACE:
                 self.current_state = MAP_1_PAGE
 
     def on_key_release(self, key, modifiers):

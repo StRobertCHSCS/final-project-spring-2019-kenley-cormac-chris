@@ -289,7 +289,7 @@ class MyGame(arcade.Window):
 
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
 
-        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
+        player_enemy_collision = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 
         bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
 
@@ -340,13 +340,6 @@ class MyGame(arcade.Window):
             self.player_list.draw()
             self.spike_list.draw()
             self.checkpoint_list.draw()
-
-        hit_spike_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
-        LIFE = 1
-        for spike_1 in hit_spike_1_list:
-            LIFE -= 1
-            if LIFE == 0:
-                self.player_sprite.kill()
 
 
     def on_key_press(self, key, modifiers):

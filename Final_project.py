@@ -43,7 +43,6 @@ class Bullet(arcade.Sprite):
 
 
 class Spike(arcade.Sprite):
-
     def reset_pos(self):
         self.center_x = self.center_x
         self.center_y = 600
@@ -194,6 +193,7 @@ class MyGame(arcade.Window):
 
     def draw_map_1(self, page_number):
         self.enemy_sprite.center_x -= 3
+
         arcade.set_background_color(BACKGROUND_COLOUR)
 
         # sprite lists
@@ -266,7 +266,7 @@ class MyGame(arcade.Window):
         self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         self.enemy_sprite.center_x = SCREEN_WIDTH
         self.enemy_sprite.center_y = 90
-        self.enemy_sprite.health = 100
+        self.enemy_sprite.health = 1
         self.spike_list = arcade.SpriteList()
         # map_2 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
@@ -314,7 +314,7 @@ class MyGame(arcade.Window):
             self.player_sprite.center_x = 25
             self.setup2()
         for enemy in bullet_enemy_collision:
-            self.enemy_sprite.health -= 5
+            self.enemy_sprite.health -= 1
             if self.enemy_sprite.health == 0:
                 self.player_sprite.score += 1
                 self.enemy_sprite.center_x = -50
@@ -326,13 +326,8 @@ class MyGame(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
 
-<<<<<<< HEAD
             self.draw_map_1(3)
             arcade.draw_text("Health: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
-=======
-            self.draw_map_1(4)
-            arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
->>>>>>> Chris-dev
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
 
 

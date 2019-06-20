@@ -9,6 +9,7 @@ BULLET_SPEED = 20
 GRAVITY = 1.5
 JUMP_SPEED = 22
 SCOREBOARD_COLOUR = arcade.color.BLACK
+BACKGROUND_COLOUR = arcade.color.BABY_BLUE
 GAME_OVER = False
 SPRITE_COLOUR = arcade.color.ORCHID_PINK
 HEALTH_SCALING = 0.05
@@ -106,12 +107,6 @@ class MyGame(arcade.Window):
         self.player_sprite.score = 0
         self.player_list.append(self.player_sprite)
 
-        # map_1 spike
-        spike_1 = Spike("Images/Spike.png", TILE_SCALING)
-        spike_1.center_x = 550
-        spike_1.center_y = 550
-        self.spike_list.append(spike_1)
-
         self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
         self.enemy_sprite.center_x = SCREEN_WIDTH
         self.enemy_sprite.center_y = 90
@@ -181,7 +176,7 @@ class MyGame(arcade.Window):
 
     def draw_map_1(self, page_number):
         self.enemy_sprite.center_x -= 3
-        arcade.set_background_color(arcade.color.BABY_BLUE)
+        arcade.set_background_color(BACKGROUND_COLOUR)
 
         # sprite lists
         self.grass_list = arcade.SpriteList()
@@ -223,7 +218,7 @@ class MyGame(arcade.Window):
 
     def draw_map_2(self, page_number):
         self.enemy_sprite.center_x -= 3
-        arcade.set_background_color(arcade.color.WHITE)
+        arcade.set_background_color(BACKGROUND_COLOUR)
         # sprite list
         self.grass_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
@@ -249,14 +244,6 @@ class MyGame(arcade.Window):
         self.checkpoint_list.append(checkpoint_2)
 
         self.enemy_sprite.draw()
-
-        # bullet hits enemy
-        bullet_hit_enemy_list = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
-        enemy_hp = 3
-        for enemy in bullet_hit_enemy_list:
-            enemy_hp -= 1
-            if enemy_hp == 2:
-                enemy.kill()
 
     def setup2(self):
 
@@ -289,16 +276,20 @@ class MyGame(arcade.Window):
 
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)
 
-        player_enemy_collision = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
+        player_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.player_list)
+
+        spike_player_collision = arcade.check_for_collision_with_list(self.player_sprite, self.spike_list)
 
         bullet_enemy_collision = arcade.check_for_collision_with_list(self.enemy_sprite, self.bullet_list)
 
         health_player_collision = arcade.check_for_collision_with_list(self.player_sprite, self.health_pickup_list)
 
+        for spike in spike_player_collision:
+            self.player_sprite.health -= 1
+
         for pickup in health_player_collision:
             self.player_sprite.health += 1
             self.health_block.kill()
-
         for checkpoint_1 in hit_checkpoint_1_list:
             self.current_state = MAP_2_PAGE
             self.player_sprite.center_x = 25
@@ -311,8 +302,6 @@ class MyGame(arcade.Window):
 
         for player in player_enemy_collision:
             self.player_sprite.health -= 1
-            if self.player_sprite.health <= 0:
-                self.player_sprite.kill()
 
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
@@ -333,6 +322,8 @@ class MyGame(arcade.Window):
         if self.current_state == MAP_2_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
                                                                  gravity_constant=GRAVITY)
+            arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
+            arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
             #self.enemy_sprite.draw()
             self.draw_map_2(4)
             self.grass_list.draw()
@@ -341,6 +332,13 @@ class MyGame(arcade.Window):
             self.spike_list.draw()
             self.checkpoint_list.draw()
 
+        if self.current_state == GAME_OVER:
+            arcade.set_background_color(arcade.color.BLACK)
+            arcade.draw_text("YOU LOSE!", (SCREEN_WIDTH/2 - 100), (SCREEN_HEIGHT/2), arcade.color.WHITE, 100, 100)
+
+        if self.player_sprite.health <= 0:
+            self.player_sprite.kill()
+            self.current_state = GAME_OVER
 
     def on_key_press(self, key, modifiers):
         if self.current_state == MAP_1_PAGE or self.current_state == MAP_2_PAGE:

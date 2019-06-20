@@ -105,17 +105,16 @@ class MyGame(arcade.Window):
         self.player_sprite.score = 0
         self.player_list.append(self.player_sprite)
 
-        self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
-        self.enemy_sprite.center_x = SCREEN_WIDTH
-
-        self.enemy_sprite.center_y = 90
-        self.enemy_sprite.health = 1
-
         # map_1 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
         spike_1.center_x = 550
         spike_1.center_y = 550
         self.spike_list.append(spike_1)
+
+        self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
+        self.enemy_sprite.center_x = SCREEN_WIDTH
+        self.enemy_sprite.center_y = 90
+        self.enemy_sprite.health = 1
 
         health_coord_list = [[550, 192]]
 
@@ -229,6 +228,11 @@ class MyGame(arcade.Window):
                 enemy.kill()
 
     def setup2(self):
+
+        self.enemy_sprite = Enemy("Images/EnemyBlock.png", TILE_SCALING)
+        self.enemy_sprite.center_x = SCREEN_WIDTH
+        self.enemy_sprite.center_y = 90
+        self.enemy_sprite.health = 1
         self.spike_list = arcade.SpriteList()
         # map_2 spike
         spike_1 = Spike("Images/Spike.png", TILE_SCALING)
@@ -287,6 +291,7 @@ class MyGame(arcade.Window):
             self.draw_map_1(3)
             arcade.draw_text("Lives: " + str(self.player_sprite.health), 50, 500, SCOREBOARD_COLOUR)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 50, 550, SCOREBOARD_COLOUR)
+
 
         # draw map 2
         hit_checkpoint_1_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list)

@@ -19,6 +19,7 @@ INSTRUCTION_PAGE_1 = 2
 STORY_PAGE_1 = 3
 MAP_1_PAGE = 4
 MAP_2_PAGE = 5
+WIN_PAGE = 6
 
 
 # tiles
@@ -67,6 +68,7 @@ class MyGame(arcade.Window):
         self.bullet_list = None
         self.enemy_list = None
         self.checkpoint_list = None
+        self.checkpoint_list_2 = None
         self.health_pickup_list = None
         self.spike_list = None
 
@@ -93,6 +95,7 @@ class MyGame(arcade.Window):
         self.health_pickup_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.checkpoint_list = arcade.SpriteList()
+        self.checkpoint_list_2 = arcade.SpriteList()
         self.spike_list = arcade.SpriteList()
 
         # sprite player
@@ -185,6 +188,9 @@ class MyGame(arcade.Window):
         scale = 1.7
         arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
 
+    def win_page(self, page_number):
+        arcade.set_background_color(arcade.color.YELLOW)
+        arcade.draw_text("YAY YOU WIN!", 100, (SCREEN_HEIGHT / 2), arcade.color.GREEN, 100)
     def draw_map_1(self, page_number):
         # sets enemy speed
         self.enemy_sprite.center_x -= 1.5
@@ -260,7 +266,7 @@ class MyGame(arcade.Window):
         checkpoint_2 = arcade.Sprite("Images/Checkpoint.png", TILE_SCALING)
         checkpoint_2.center_x = 900
         checkpoint_2.center_y = 300
-        self.checkpoint_list.append(checkpoint_2)
+        self.checkpoint_list_2.append(checkpoint_2)
 
         self.enemy_sprite.draw()
 
@@ -324,6 +330,16 @@ class MyGame(arcade.Window):
         for player in player_enemy_collision:
             self.player_sprite.health -= 5
 
+        hit_checkpoint_2_list = arcade.check_for_collision_with_list(self.player_sprite, self.checkpoint_list_2)
+        for checkpoint_2 in hit_checkpoint_2_list:
+            self.player_sprite.kill()
+            self.current_state = WIN_PAGE
+            if self.current_state == WIN_PAGE:
+                self.win_page(6)
+
+
+
+
         # drawing map_1
         if self.current_state == MAP_1_PAGE:
             self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.grass_list,
@@ -354,7 +370,7 @@ class MyGame(arcade.Window):
             self.bullet_list.draw()
             self.player_list.draw()
             self.spike_list.draw()
-            self.checkpoint_list.draw()
+            self.checkpoint_list_2.draw()
 
         if self.current_state == GAME_OVER:
             arcade.set_background_color(arcade.color.BLACK)
@@ -425,6 +441,7 @@ class MyGame(arcade.Window):
 
         # update checkpoints
         self.checkpoint_list.update()
+        self.checkpoint_list_2.update()
 
         # update physics
         self.physics_engine.update()

@@ -183,7 +183,7 @@ class MyGame(arcade.Window):
                          '\nBEHIND BLOCK ADVENTURE, THIS IS NOT IMPORTANT '
                          '\nAT ALL TO YOUR GAMEPLAY SO YOU CAN SKIP THIS '
                          '\nIF YOU WANT BUT HERE IS THE SAD STORY OF BLUE '
-                         '\nBLOCK. BLUE BLOCK WAS A CRACKHEAD.ONE DAY HIS '
+                         '\nBLOCK. BLUE BLOCK WAS A CRACKHEAD. ONE DAY HIS '
                          '\nMOM TOLD HIM TO GET GROCERIES BUT HE WAS ALREADY '
                          '\nINTOXICATED OUT OF HIS MIND. AFTER ARGUING WITH '
                          '\nWHO HE THOUGHT WAS HIS MOM FOR A WHILE (IT WAS '
@@ -192,6 +192,7 @@ class MyGame(arcade.Window):
                          '\nWAITING OUTSIDE FOR HIM. NOT LIKE LORD OF THE RINGS'
                          '\nBUT NONETHELESS AN ADVENTURE WAY MORE ENTERTAINING '
                          '\nTHAN HIS NORMAL INSIDE LIFE."', 150, 250, arcade.color.BLACK, 25)
+        arcade.draw_text("PRESS G TO START GAME", 630, 30, arcade.color.DARK_GRAY, 25)
         block_image = arcade.load_texture("Images/RedBlock.png")
         scale = 1.7
         arcade.draw_texture_rectangle(100, 155, scale * block_image.width, scale * block_image.height, block_image, 0)
